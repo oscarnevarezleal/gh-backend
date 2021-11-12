@@ -34,7 +34,7 @@ jobs:
         run: |
           # Encrypt the file
           gpg --local-user 4A8FB9698364B867 --sign tunnels.json && \
-          mv tunnels.json.gpg > /tmp/tunnels.json.gpg
+          mv tunnels.json.gpg /tmp/tunnels.json.gpg
       - uses: actions/checkout@v2
       - name : After checkout
         run: |
