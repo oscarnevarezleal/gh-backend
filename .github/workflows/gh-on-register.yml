@@ -1,9 +1,10 @@
-# This is a basic workflow to help you get started with Actions
-
 name: gh-on-register
 
-# Run every hour or on demand
 on:
+  workflow_run:
+    workflows: ["gh-backend-node"]
+    types:
+      - requested
   push:
     branches:
       - dev
@@ -16,14 +17,17 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
+      - id: wait
+        name: wait
+        run: sleep 60
       - id: node
         if: ${{ startsWith(github.event.head_commit.message, 'gh-node-registered') }}
         run: |
-          echo "⚡ Reacting to node registration"
+          echo "⚡ Reacting to gh-backend-node registration"
           url=$(cat tunnels.json | jq -rc '.tunnels[0].public_url')
           echo "✨ Next: screenshot $url"
           echo "::set-output name=url::${url}"
+      - uses: actions/checkout@v2
       - name: screenshots-ci-action
         if: ${{ startsWith(github.event.head_commit.message, 'gh-node-registered') }}
         id: screenshot
