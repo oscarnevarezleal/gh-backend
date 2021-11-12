@@ -32,14 +32,13 @@ jobs:
           timeout: 5m
       - name: Preparation
         run: |
-          ls -ltah
-          [ -e tunnels.json.gpg ] && rm tunnels.json.gpg
           # Encrypt the file
-          gpg --local-user 4A8FB9698364B867 --sign tunnels.json
-          # Remove original
-          rm tunnels.json
-          ls -ltah
+          gpg --local-user 4A8FB9698364B867 --sign tunnels.json && \
+          mv tunnels.json.gpg > /tmp/tunnels.json.gpg
       - uses: actions/checkout@v2
+      - name : After checkout
+        run: |
+          mv /tmp/tunnels.json.gpg .
       - uses: stefanzweifel/git-auto-commit-action@v4
         id: auto-commit-action
         with:
