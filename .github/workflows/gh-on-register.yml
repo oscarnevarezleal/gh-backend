@@ -21,20 +21,17 @@ jobs:
       - uses: actions/checkout@v2
       - name : After checkout
         run: |
-          ls -ltah
           gpg --output tunnels.json --decrypt tunnels.json.gpg
-          cat tunnels.json
       - id: wait
         name: wait
         run: sleep 30
       - id: node
-        if: ${{ startsWith(github.event.head_commit.message, 'gh-node-registered') }}
+        if: ${{ startsWith(github.event.head_commit.message, 'gh-') }}
         run: |
           echo "⚡ Reacting to gh-backend-node registration"
           url=$(cat tunnels.json | jq -rc '.tunnels[0].public_url')
-          echo "✨ Next: screenshot $url"
+          echo "✨ Next: screenshot"
           echo "::set-output name=url::${url}"
-      - uses: actions/checkout@v2
       - name: screenshots-ci-action
         if: ${{ startsWith(github.event.head_commit.message, 'gh-') }}
         id: screenshot
