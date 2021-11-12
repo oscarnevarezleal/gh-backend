@@ -29,8 +29,8 @@ jobs:
         id: xrelease
         with:
           name: endpoint
+          tag: dev
           body: ${{ steps.tunnel.outputs.public-url }}
-          prerelease: true
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
