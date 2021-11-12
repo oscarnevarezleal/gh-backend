@@ -35,5 +35,5 @@ jobs:
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-          echo ${{ steps.tunnel.outputs.public-url }}
+          echo "⚡ listening at: ${{ steps.tunnel.outputs.public-url }}"
           sleep 5m
