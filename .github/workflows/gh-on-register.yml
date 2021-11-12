@@ -18,12 +18,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: node
+        if: ${{ startsWith(github.event.head_commit.message, 'gh-node-registered') }}
         run: |
           echo "⚡ Reacting to node registration"
           url=$(cat tunnels.json | jq -rc '.tunnels[0].public_url')
           echo "✨ Next: screenshot $url"
           echo "::set-output name=url::${url}"
       - name: screenshots-ci-action
+        if: ${{ startsWith(github.event.head_commit.message, 'gh-node-registered') }}
         id: screenshot
         uses: flameddd/screenshots-ci-action@v1.1.1
         with:

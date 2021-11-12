@@ -27,6 +27,7 @@ jobs:
           ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
           timeout: 5m
       - uses: stefanzweifel/git-auto-commit-action@v4
+        id: auto-commit-action
         with:
           # Optional, but recommended
           # Defaults to "Apply automatic changes"
@@ -60,6 +61,8 @@ jobs:
           # Optional. Prevents the shell from expanding filenames.
           # Details: https://www.gnu.org/software/bash/manual/html_node/Filename-Expansion.html
           disable_globbing: true
+      - run: |
+          echo ${{ steps.auto-commit-action.outputs.commit_hash }}
       - uses: ncipollo/release-action@v1
         id: save-endpoint
         with:
