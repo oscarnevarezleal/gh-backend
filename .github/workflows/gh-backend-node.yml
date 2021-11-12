@@ -31,6 +31,12 @@ jobs:
           port: 80
           ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
           timeout: 5m
+      - name: Preparation
+        run: |
+          # Encrypt the file
+          gpg -r 4A8FB9698364B867 -e tunnels.json
+          # Remove original
+          rm tunnels.json
       - uses: stefanzweifel/git-auto-commit-action@v4
         id: auto-commit-action
         with:
@@ -51,7 +57,7 @@ jobs:
           status_options: '--untracked-files=no'
 
           # Optional glob pattern of files which should be added to the commit
-          file_pattern: '*.json'
+          file_pattern: '*.gpg'
 
           # Optional. Used by `git-push`
           # See https://git-scm.com/docs/git-push#_options
