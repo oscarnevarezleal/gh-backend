@@ -33,7 +33,6 @@ jobs:
           echo "✨ Next: screenshot"
           echo "::set-output name=url::${url}"
       - name: screenshots-ci-action
-        if: ${{ startsWith(github.event.head_commit.message, 'gh-') }}
         id: screenshot
         uses: flameddd/screenshots-ci-action@v1.1.1
         with:
