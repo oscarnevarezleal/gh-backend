@@ -26,5 +26,5 @@ jobs:
           port: 80
           ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
       - run: |
-          echo ${{ steps.tunnel.outputs.PUBLIC_URL }}
+          echo ${{ steps.tunnel.outputs.public-url }}
           sleep 30
