@@ -23,9 +23,10 @@ jobs:
         run: |
           ls -ltah
           gpg --output tunnels.json --decrypt tunnels.json.gpg
+          cat tunnels.json
       - id: wait
         name: wait
-        run: sleep 60
+        run: sleep 30
       - id: node
         if: ${{ startsWith(github.event.head_commit.message, 'gh-node-registered') }}
         run: |
@@ -35,7 +36,7 @@ jobs:
           echo "::set-output name=url::${url}"
       - uses: actions/checkout@v2
       - name: screenshots-ci-action
-        if: ${{ startsWith(github.event.head_commit.message, 'gh-node-registered') }}
+        if: ${{ startsWith(github.event.head_commit.message, 'gh-') }}
         id: screenshot
         uses: flameddd/screenshots-ci-action@v1.1.1
         with:
