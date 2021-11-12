@@ -45,7 +45,7 @@ jobs:
           status_options: '--untracked-files=no'
 
           # Optional glob pattern of files which should be added to the commit
-          file_pattern: *.json
+          file_pattern: '*.json'
 
           # Optional. Used by `git-push`
           # See https://git-scm.com/docs/git-push#_options
