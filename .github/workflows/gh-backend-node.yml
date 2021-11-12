@@ -5,7 +5,7 @@ name: gh-backend-node
 # Run every hour or on demand
 on:
   schedule:
-    - cron: * * * * *
+    - cron: '* * * * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
