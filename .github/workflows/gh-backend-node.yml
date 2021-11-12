@@ -1,0 +1,74 @@
+# This is a basic workflow to help you get started with Actions
+
+name: gh-backend-node
+
+# Run every hour or on demand
+on:
+  schedule:
+    - cron: 0 * * * *
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v2
+      - uses: oscarnevarezleal/ngrok-tunneling-action@dev
+        id: tunnel
+        with:
+          port: 80
+          ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
+          timeout: 5m
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          # Optional, but recommended
+          # Defaults to "Apply automatic changes"
+          commit_message: "${{ steps.tunnel.outputs.public-url }}"
+
+          # Optional. Used by `git-commit`.
+          # See https://git-scm.com/docs/git-commit#_options
+          commit_options: '--allow-empty'
+
+          # Optional local file path to the repository
+          # Defaults to the root of the repository
+          repository: .
+
+          # Optional. Used by `git-status`
+          # See https://git-scm.com/docs/git-status#_options
+          status_options: '--untracked-files=no'
+
+          # Optional. Used by `git-add`
+          # See https://git-scm.com/docs/git-add#_options
+          add_options: '-A'
+
+          # Optional. Used by `git-push`
+          # See https://git-scm.com/docs/git-push#_options
+          push_options: '--force'
+
+          # Optional. Disable dirty check and always try to create a commit and push
+          skip_dirty_check: true
+
+          # Optional. Skip internal call to `git fetch`
+          skip_fetch: true
+
+          # Optional. Prevents the shell from expanding filenames.
+          # Details: https://www.gnu.org/software/bash/manual/html_node/Filename-Expansion.html
+          disable_globbing: true
+      - uses: ncipollo/release-action@v1
+        id: save-endpoint
+        with:
+          name: endpoint
+          tag: latest
+          body: ${{ steps.tunnel.outputs.public-url }}
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          echo "⚡ listening at: ${{ steps.tunnel.outputs.public-url }}"
+          sleep 5m
