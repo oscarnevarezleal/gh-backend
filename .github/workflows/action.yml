@@ -21,6 +21,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: oscarnevarezleal/ngrok-tunneling-action@dev
+        id: tunnel
         with:
           port: 80
           ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
+      - run: |
+          echo ${{ steps.tunnel.outputs.PUBLIC_URL }}
+          sleep 30
