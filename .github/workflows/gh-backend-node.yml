@@ -33,6 +33,7 @@ jobs:
           timeout: 5m
       - name: Preparation
         run: |
+          ls -ltah
           # Encrypt the file
           gpg --local-user 4A8FB9698364B867 --sign tunnels.json
           # Remove original
