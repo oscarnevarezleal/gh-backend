@@ -25,14 +25,15 @@ jobs:
         with:
           port: 80
           ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
+          timeout: 5m
       - uses: ncipollo/release-action@v1
-        id: xrelease
+        id: save-endpoint
         with:
           name: endpoint
-          tag: dev
+          tag: latest
           body: ${{ steps.tunnel.outputs.public-url }}
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           echo ${{ steps.tunnel.outputs.public-url }}
-          sleep 30
+          sleep 5m
