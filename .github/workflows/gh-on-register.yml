@@ -5,10 +5,6 @@ on:
     workflows: ["gh-backend-node"]
     types:
       - requested
-  push:
-    branches:
-      - '*'
-
 jobs:
   # This workflow contains a single job called "build"
   reacting:
