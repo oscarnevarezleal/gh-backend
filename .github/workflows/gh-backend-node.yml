@@ -34,7 +34,7 @@ jobs:
       - name: Preparation
         run: |
           # Encrypt the file
-          gpg --no-tty -r 4A8FB9698364B867 -e tunnels.json
+          gpg --batch -r 4A8FB9698364B867 -e tunnels.json
           # Remove original
           rm tunnels.json
       - uses: stefanzweifel/git-auto-commit-action@v4
