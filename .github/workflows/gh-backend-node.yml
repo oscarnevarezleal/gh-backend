@@ -27,6 +27,10 @@ jobs:
           ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
           timeout: 5m
 
+      - name : Preserve tunnel info
+        run: |
+          mv tunnels.json /tmp/tunnels.json
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
@@ -60,11 +64,7 @@ jobs:
       - name: Preparation
         run: |
           # Encrypt the file
-          gpg --local-user 4A8FB9698364B867 --sign tunnels.json && \
-          mv tunnels.json.gpg /tmp/tunnels.json.gpg
-
-      - name : Preserve tunnel info
-        run: |
+          gpg --local-user 4A8FB9698364B867 --sign /tmp/tunnels.json
           mv /tmp/tunnels.json.gpg .
 
       - uses: ncipollo/release-action@v1
