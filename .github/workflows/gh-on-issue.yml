@@ -19,3 +19,32 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.85.0'
+
+      - uses: actions/checkout@v2
+
+      - name: Get Hash
+        id: hash
+        run: echo "::set-output name=value::$(git rev-parse --short "$GITHUB_SHA")"
+
+      - name: Create content
+        run : |
+          hugo new posts/${{ github.event.issue.number }}.md
+          echo "${{ github.event.issue.body }}" >> ${{ github.event.issue.number }}.md
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        id: auto-commit-action
+        with:
+          commit_message: 'New content: ${{ github.event.issue.title }}'
+          commit_options: '--allow-empty'
+          repository: .
+          status_options: '--untracked-files=no'
+          file_pattern: 'content/**/*'
+          push_options: '--force'
+          skip_dirty_check: true
+          skip_fetch: true
+          disable_globbing: true
