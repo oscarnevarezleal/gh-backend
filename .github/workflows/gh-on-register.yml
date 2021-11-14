@@ -31,6 +31,7 @@ jobs:
           latest: true
       - name: After checkout
         run: |
+          ls -ltah
           gpg --output tunnels.json --decrypt tunnels.json.gpg
       - id: node
         run: |
