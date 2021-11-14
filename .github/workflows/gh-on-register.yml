@@ -28,8 +28,9 @@ jobs:
       - uses: robinraju/release-downloader@v1.2
         with:
           repository: "oscarnevarezleal/gh-backend"
-          latest: true
-      - name: After checkout
+          tag: "latest"
+          fileName: "tunnels.json.gpg"
+      - name: Decrypt
         run: |
           ls -ltah
           gpg --output tunnels.json --decrypt tunnels.json.gpg
