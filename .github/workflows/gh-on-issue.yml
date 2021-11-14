@@ -36,7 +36,7 @@ jobs:
           git clone https://github.com/spf13/hyde.git themes/hyde
           git clone https://github.com/panr/hugo-theme-hello-friend.git themes/hello-friend
 
-          file="posts/${{ github.event.issue.number }}.md"
+          file="content/posts/${{ github.event.issue.number }}.md"
 
           touch $file
           echo "---" > $file
