@@ -38,7 +38,7 @@ jobs:
 
           file="posts/${{ github.event.issue.number }}.md"
 
-          echo "---" >> $file
+          echo "---" > $file
           echo "title: \"${{ github.event.issue.title }}\"" >> $file
           echo "date: 2021-11-14T22:40:38Z" >> $file
           echo "draft: false" >> $file
