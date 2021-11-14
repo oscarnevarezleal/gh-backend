@@ -84,9 +84,9 @@ jobs:
         id: save-endpoint
         with:
           name: ${{ steps.hash.outputs.value }}
-          tag: ${{ github.ref }}
+          tag: ${{ steps.hash.outputs.value }}
           artifacts: "tunnels.json.gpg"
-          body: ${{ steps.tunnel.outputs.public-url }}
+          body: "-"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
