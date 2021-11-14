@@ -19,6 +19,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Get Hash
+        id: hash
+        run: echo "::set-output name=value::$(git rev-parse --short "$GITHUB_SHA")"
       - name: Configure GPG Key
         run: |
           echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
@@ -80,7 +83,7 @@ jobs:
       - uses: ncipollo/release-action@v1
         id: save-endpoint
         with:
-          name: endpoint
+          name: ${{ steps.hash.outputs.value }}
           tag: ${{ github.ref }}
           artifacts: "tunnels.json.gpg"
           body: ${{ steps.tunnel.outputs.public-url }}
