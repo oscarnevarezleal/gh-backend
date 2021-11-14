@@ -24,12 +24,9 @@ jobs:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
       - uses: actions/checkout@v2
       - name : After checkout
+        if: startsWith(github.event.head_commit.message, 'gh-node-registered')
         run: |
           gpg --output tunnels.json --decrypt tunnels.json.gpg
-          cat tunnels.json
-      - id: wait
-        name: wait
-        run: sleep 30
       - id: node
         if: startsWith(github.event.head_commit.message, 'gh-node-registered')
         run: |
@@ -45,6 +42,7 @@ jobs:
           url: ${{ steps.node.outputs.url }}
           devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
       - uses: actions/upload-artifact@v2
+        if: startsWith(github.event.head_commit.message, 'gh-node-registered')
         with:
           path: screenshots
           name: Download-screenshots
