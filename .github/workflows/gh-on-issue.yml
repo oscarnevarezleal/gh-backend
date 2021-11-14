@@ -38,6 +38,7 @@ jobs:
           hugo new posts/${{ github.event.issue.number }}.md
           echo "${{ github.event.issue.body }}" >> ${{ github.event.issue.number }}.md
           hugo -D -t hyde
+          ls -ltah public
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         id: auto-commit-action
