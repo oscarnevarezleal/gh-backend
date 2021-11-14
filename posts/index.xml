@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Hello Friend</title>
+    <link>/posts/</link>
+    <description>Recent content in Posts on Hello Friend</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 14 Nov 2021 22:22:27 +0000</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>6</title>
+      <link>/posts/6/</link>
+      <pubDate>Sun, 14 Nov 2021 22:22:27 +0000</pubDate>
+      
+      <guid>/posts/6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>5</title>
+      <link>/posts/5/</link>
+      <pubDate>Sun, 14 Nov 2021 22:16:23 +0000</pubDate>
+      
+      <guid>/posts/5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>My First Post</title>
+      <link>/posts/post-01/</link>
+      <pubDate>Tue, 26 Mar 2019 08:47:11 +0100</pubDate>
+      
+      <guid>/posts/post-01/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
