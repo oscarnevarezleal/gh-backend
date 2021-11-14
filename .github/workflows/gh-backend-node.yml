@@ -44,13 +44,8 @@ jobs:
 
       - name: Run Hugo
         run : |
-          ls -ltah
-          mkdir -p /tmp/site
           git clone https://github.com/spf13/hyde.git themes/hyde
           git clone https://github.com/panr/hugo-theme-hello-friend.git /tmp/site/themes/hello-friend
-          cp -a ./. /tmp/site/
-          cd /tmp/site
-          ls -ltah
           hugo server -b ${{ steps.tunnel.outputs.public-url }} --appendPort=false --liveReloadPort=443 --navigateToChanged -t hyde --port 1313 &
 
       - name: Configure GPG Key
