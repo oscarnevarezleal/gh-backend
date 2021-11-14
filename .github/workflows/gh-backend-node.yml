@@ -4,8 +4,8 @@ name: gh-backend-node
 
 # Run every hour or on demand
 on:
-  schedule:
-    - cron: '*/5 * * * *'
+  #  schedule:
+  #    - cron: '*/5 * * * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -59,23 +59,42 @@ jobs:
         run: |
           mv /tmp/tunnels.json.gpg .
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        id: auto-commit-action
+      #      - uses: stefanzweifel/git-auto-commit-action@v4
+      #        id: auto-commit-action
+      #        with:
+      #          commit_message: "gh-node-registered ${{ steps.tunnel.outputs.public-url }}"
+      #          commit_options: '--allow-empty'
+      #          repository: .
+      #          status_options: '--untracked-files=no'
+      #          file_pattern: '*.gpg'
+      #          push_options: '--force'
+      #          skip_dirty_check: true
+      #          skip_fetch: true
+      #          disable_globbing: true
+      #      - id: next_version
+      #        uses: zwaldowski/semver-release-action@v1
+      #        with:
+      #          dry_run: true
+      #          bump: ${{ … }}
+      #          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - id: bump
+        uses: zwaldowski/match-label-action@v1
         with:
-          commit_message: "gh-node-registered ${{ steps.tunnel.outputs.public-url }}"
-          commit_options: '--allow-empty'
-          repository: .
-          status_options: '--untracked-files=no'
-          file_pattern: '*.gpg'
-          push_options: '--force'
-          skip_dirty_check: true
-          skip_fetch: true
-          disable_globbing: true
+          allowed: major,minor,patch
+      - uses: zwaldowski/semver-release-action@v1
+        with:
+          bump: ${{ steps.bump.outputs.match }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ncipollo/release-action@v1
+        id: save-endpoint
+        with:
+          name: endpoint
+          tag: ${{ github.ref }}
+          artifacts: "tunnels.json.gpg"
+          body: ${{ steps.tunnel.outputs.public-url }}
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - run: |
-          echo ${{ steps.auto-commit-action.outputs.commit_hash }}
-
-      - run: |
-          url=$(cat tunnels.json | jq -rc '.tunnels[0].public_url')
-          echo "⚡ Listening at $url"
+          echo "⚡ Listening"
           sleep 5m
