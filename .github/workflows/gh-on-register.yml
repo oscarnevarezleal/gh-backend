@@ -1,14 +1,14 @@
 name: gh-on-register
 
 on:
-  release:
-    types:
-      - created
-      - published
-      - released
-
+  workflow_dispatch:
+#  release:
+#    types:
+#      - created
+#      - published
+#      - released
 #  workflow_run:
-#    workflows: ["gh-backend-node"]
+#    workflows: [ "gh-backend-node" ]
 #    types:
 #      - requested
 
@@ -25,7 +25,10 @@ jobs:
           echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
-      - uses: actions/checkout@v2
+      - uses: robinraju/release-downloader@v1.2
+        with:
+          repository: "oscarnevarezleal/gh-backend"
+          latest: true
       - name: After checkout
         run: |
           gpg --output tunnels.json --decrypt tunnels.json.gpg
