@@ -25,12 +25,19 @@ jobs:
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
 
-      - uses: oscarnevarezleal/ngrok-tunneling-action@dev
+      - name: Setup Tunneling
+        uses: oscarnevarezleal/ngrok-tunneling-action@dev
         id: tunnel
         with:
           port: 1313
           ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
           timeout: 5m
+
+      - name: Preparation
+        run: |
+          # Encrypt the file
+          gpg --local-user 4A8FB9698364B867 --sign tunnels.json && \
+          mv tunnels.json.gpg /tmp/tunnels.json.gpg
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
@@ -38,12 +45,6 @@ jobs:
           hugo-version: '0.85.0'
 
       - uses: actions/checkout@v2
-
-      - name: Preparation
-        run: |
-          # Encrypt the file
-          gpg --local-user 4A8FB9698364B867 --sign tunnels.json && \
-          mv tunnels.json.gpg /tmp/tunnels.json.gpg
 
       - name: Run Hugo
         run : |
@@ -54,7 +55,7 @@ jobs:
           cd /tmp/site
           hugo server -b ${{ steps.tunnel.outputs.public-url }} --appendPort=false --liveReloadPort=443 --navigateToChanged -t hello-friend --port 1313 &
 
-      - name : After checkout
+      - name : Preserve tunnel info
         run: |
           mv /tmp/tunnels.json.gpg .
 
