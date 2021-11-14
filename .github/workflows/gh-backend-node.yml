@@ -36,7 +36,7 @@ jobs:
         run : |
           mkdir -p /tmp/site
           git clone https://github.com/panr/hugo-theme-hello-friend.git /tmp/site/themes/hello-friend
-          cp config.toml themes/hello-friend/config.toml
+          cp config.toml /tmp/site/themes/hello-friend/config.toml
           rm -rf .
           cd /tmp/site
           hugo server -t hello-friend --port 80 &
