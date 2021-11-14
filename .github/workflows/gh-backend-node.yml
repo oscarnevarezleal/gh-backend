@@ -84,7 +84,7 @@ jobs:
         id: save-endpoint
         with:
           name: latest
-          tag: ${{ steps.hash.outputs.value }}
+          tag: latest
           artifacts: "tunnels.json.gpg"
           body: "-"
           allowUpdates: true
