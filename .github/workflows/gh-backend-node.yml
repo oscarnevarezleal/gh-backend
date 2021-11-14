@@ -39,12 +39,12 @@ jobs:
           cp config.toml /tmp/site/themes/hello-friend/config.toml
           rm -rf *
           cd /tmp/site
-          hugo server -t hello-friend --port 8081 &
+          hugo server -t hello-friend --port 1313 &
 
       - uses: oscarnevarezleal/ngrok-tunneling-action@dev
         id: tunnel
         with:
-          port: 8081
+          port: 1313
           ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
           timeout: 5m
 
