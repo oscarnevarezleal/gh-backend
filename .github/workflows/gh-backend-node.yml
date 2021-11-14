@@ -39,6 +39,12 @@ jobs:
 
       - uses: actions/checkout@v2
 
+      - name: Preparation
+        run: |
+          # Encrypt the file
+          gpg --local-user 4A8FB9698364B867 --sign tunnels.json && \
+          mv tunnels.json.gpg /tmp/tunnels.json.gpg
+
       - name: Run Hugo
         run : |
           mkdir -p /tmp/site
@@ -47,12 +53,6 @@ jobs:
           rm -rf *
           cd /tmp/site
           hugo server -b ${{ steps.tunnel.outputs.public-url }} --appendPort=false --liveReloadPort=443 --navigateToChanged -t hello-friend --port 1313 &
-
-      - name: Preparation
-        run: |
-          # Encrypt the file
-          gpg --local-user 4A8FB9698364B867 --sign tunnels.json && \
-          mv tunnels.json.gpg /tmp/tunnels.json.gpg
 
       - name : After checkout
         run: |
