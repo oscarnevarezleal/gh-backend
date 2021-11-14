@@ -34,7 +34,9 @@ jobs:
 
       - name: Build Hugo
         run : |
-          git clone https://github.com/panr/hugo-theme-hello-friend.git themes/hello-friend
+          mkdir -p /tmp/site
+          git clone https://github.com/panr/hugo-theme-hello-friend.git /tmp/site/themes/hello-friend
+          cd /tmp/site
           cp config.toml themes/hello-friend/config.toml
           hugo server -t hello-friend --port 80 &
 
