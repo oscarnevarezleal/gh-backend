@@ -44,7 +44,6 @@ jobs:
           echo "date: 2021-11-14T22:40:38Z" >> $file
           echo "draft: false" >> $file
           echo "---" >> $file
-          echo "# ${{ github.event.issue.title }} " >> $file
           echo "" >> $file
           echo "${{ github.event.issue.body }}" >> $file
 
