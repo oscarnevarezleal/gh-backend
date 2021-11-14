@@ -1,10 +1,14 @@
 name: gh-on-register
 
 on:
-  workflow_run:
-    workflows: ["gh-backend-node"]
-    types:
-      - requested
+  push:
+    branches:
+      - main
+#  workflow_run:
+#    workflows: ["gh-backend-node"]
+#    types:
+#      - requested
+
 jobs:
   # This workflow contains a single job called "build"
   reacting:
@@ -27,13 +31,14 @@ jobs:
         name: wait
         run: sleep 30
       - id: node
-        #        if: startsWith(github.event.head_commit.message, 'gh-')
+        if: startsWith(github.event.head_commit.message, 'gh-node-registered')
         run: |
           echo "⚡ Reacting to gh-backend-node registration"
           url=$(cat tunnels.json | jq -rc '.tunnels[0].public_url')
           echo "✨ Next: screenshot"
           echo "::set-output name=url::${url}"
       - name: screenshots-ci-action
+        if: startsWith(github.event.head_commit.message, 'gh-node-registered')
         id: screenshot
         uses: flameddd/screenshots-ci-action@v1.1.1
         with:
