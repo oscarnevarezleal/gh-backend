@@ -37,8 +37,6 @@ jobs:
           hugo-version: '0.85.0'
 
       - uses: actions/checkout@v2
-        with:
-          path: 'repo'
 
       - name: Get Hash
         id: hash
@@ -49,8 +47,7 @@ jobs:
           ls -ltah
           mkdir -p /tmp/site
           git clone https://github.com/panr/hugo-theme-hello-friend.git /tmp/site/themes/hello-friend
-          cp -a repo/. /tmp/site/
-          rm -rf *
+          cp -a ./. /tmp/site/
           cd /tmp/site
           ls -ltah
           hugo server -b ${{ steps.tunnel.outputs.public-url }} --appendPort=false --liveReloadPort=443 --navigateToChanged -t hello-friend --port 1313 &
