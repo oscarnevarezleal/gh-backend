@@ -22,6 +22,7 @@ jobs:
       - name : After checkout
         run: |
           gpg --output tunnels.json --decrypt tunnels.json.gpg
+          cat tunnels.json
       - id: wait
         name: wait
         run: sleep 30
