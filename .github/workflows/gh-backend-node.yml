@@ -83,7 +83,7 @@ jobs:
       - uses: ncipollo/release-action@v1
         id: save-endpoint
         with:
-          name: ${{ steps.hash.outputs.value }}
+          name: latest
           tag: ${{ steps.hash.outputs.value }}
           artifacts: "tunnels.json.gpg"
           body: "-"
