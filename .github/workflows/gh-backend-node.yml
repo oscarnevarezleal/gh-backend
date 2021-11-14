@@ -24,6 +24,20 @@ jobs:
           echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.85.0'
+          # extended: true
+
+      - name: Build Hugo
+        run : |
+          git clone https://github.com/panr/hugo-theme-hello-friend.git themes/hello-friend
+          git submodule add -f https://github.com/panr/hugo-theme-hello-friend.git themes/hello-friend
+          cd themes/hell-friend
+          hugo server -t hello-friend
+
       - uses: oscarnevarezleal/ngrok-tunneling-action@dev
         id: tunnel
         with:
