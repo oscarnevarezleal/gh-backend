@@ -38,6 +38,7 @@ jobs:
           git clone https://github.com/panr/hugo-theme-hello-friend.git /tmp/site/themes/hello-friend
           cd /tmp/site
           cp config.toml themes/hello-friend/config.toml
+          rm -rf .
           hugo server -t hello-friend --port 80 &
 
       - uses: oscarnevarezleal/ngrok-tunneling-action@dev
