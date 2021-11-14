@@ -37,6 +37,7 @@ jobs:
           git clone https://github.com/panr/hugo-theme-hello-friend.git themes/hello-friend
           hugo new posts/${{ github.event.issue.number }}.md
           echo "${{ github.event.issue.body }}" >> ${{ github.event.issue.number }}.md
+          hugo -D -t hyde
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         id: auto-commit-action
@@ -50,3 +51,9 @@ jobs:
           skip_dirty_check: true
           skip_fetch: true
           disable_globbing: true
+
+      - name: Update Gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
