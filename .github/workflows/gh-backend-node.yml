@@ -62,7 +62,7 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         id: auto-commit-action
         with:
-          commit_message: "gh-node-registered"
+          commit_message: "gh-node-registered ${{ steps.tunnel.outputs.public-url }}"
           commit_options: '--allow-empty'
           repository: .
           status_options: '--untracked-files=no'
