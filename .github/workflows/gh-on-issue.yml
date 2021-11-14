@@ -1,4 +1,4 @@
-name: gh-on-register
+name: gh-on-issue
 
 on:
   issues:
