@@ -4,6 +4,8 @@ on:
   release:
     types:
       - created
+      - published
+      - released
 
 #  workflow_run:
 #    workflows: ["gh-backend-node"]
@@ -24,7 +26,7 @@ jobs:
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
       - uses: actions/checkout@v2
-      - name : After checkout
+      - name: After checkout
         run: |
           gpg --output tunnels.json --decrypt tunnels.json.gpg
       - id: node
