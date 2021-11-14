@@ -19,12 +19,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Configure GPG Key
-        run: |
-          echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
-        env:
-          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
-
       - name: Setup Tunneling
         uses: oscarnevarezleal/ngrok-tunneling-action@dev
         id: tunnel
@@ -32,12 +26,6 @@ jobs:
           port: 1313
           ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
           timeout: 5m
-
-      - name: Preparation
-        run: |
-          # Encrypt the file
-          gpg --local-user 4A8FB9698364B867 --sign tunnels.json && \
-          mv tunnels.json.gpg /tmp/tunnels.json.gpg
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
@@ -63,28 +51,22 @@ jobs:
           ls -ltah
           hugo server -b ${{ steps.tunnel.outputs.public-url }} --appendPort=false --liveReloadPort=443 --navigateToChanged -t hello-friend --port 1313 &
 
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Preparation
+        run: |
+          # Encrypt the file
+          gpg --local-user 4A8FB9698364B867 --sign tunnels.json && \
+          mv tunnels.json.gpg /tmp/tunnels.json.gpg
+
       - name : Preserve tunnel info
         run: |
           mv /tmp/tunnels.json.gpg .
 
-      #      - uses: stefanzweifel/git-auto-commit-action@v4
-      #        id: auto-commit-action
-      #        with:
-      #          commit_message: "gh-node-registered ${{ steps.tunnel.outputs.public-url }}"
-      #          commit_options: '--allow-empty'
-      #          repository: .
-      #          status_options: '--untracked-files=no'
-      #          file_pattern: '*.gpg'
-      #          push_options: '--force'
-      #          skip_dirty_check: true
-      #          skip_fetch: true
-      #          disable_globbing: true
-      #      - id: next_version
-      #        uses: zwaldowski/semver-release-action@v1
-      #        with:
-      #          dry_run: true
-      #          bump: ${{ … }}
-      #          github_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ncipollo/release-action@v1
         id: save-endpoint
         with:
