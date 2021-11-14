@@ -75,5 +75,6 @@ jobs:
           echo ${{ steps.auto-commit-action.outputs.commit_hash }}
 
       - run: |
-          echo "⚡ Working"
+          url=$(cat tunnels.json | jq -rc '.tunnels[0].public_url')
+          echo "⚡ Listening at $url"
           sleep 5m
